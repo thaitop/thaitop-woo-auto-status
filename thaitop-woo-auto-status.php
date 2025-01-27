@@ -295,8 +295,12 @@ function twas_settings_page() {
 add_filter('cron_schedules', 'twas_add_cron_interval');
 function twas_add_cron_interval($schedules) {
     $schedules['every_minute'] = array(
-        'interval' => 60, // 1 minute in seconds
+        'interval' => 60,
         'display'  => 'Every Minute'
+    );
+    $schedules['every_five_minutes'] = array(
+        'interval' => 300,
+        'display'  => 'Every 5 Minutes'
     );
     return $schedules;
 }
@@ -305,7 +309,8 @@ function twas_add_cron_interval($schedules) {
 register_activation_hook(__FILE__, 'twas_activation');
 function twas_activation() {
     if (!wp_next_scheduled('twas_check_orders')) {
-        wp_schedule_event(time(), 'every_minute', 'twas_check_orders');
+        // ใช้ every_minute ถ้าต้องการให้ทำงานทุกนาที
+        wp_schedule_event(time(), 'every_five_minutes', 'twas_check_orders');
     }
 }
 

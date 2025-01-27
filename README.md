@@ -37,6 +37,38 @@ ThaiTop Woo Auto Status helps you automate your WooCommerce order status changes
    - Time unit (minutes/hours)
 3. Save your settings
 
+### Cron Job Setup (Optional but Recommended)
+
+For more reliable operation, set up a system cron job to trigger WordPress cron:
+
+1. **Using cPanel (Every minute):**
+   ```bash
+   * * * * * wget -q -O /dev/null "https://your-site.com/wp-cron.php?doing_wp_cron"
+   ```
+
+2. **Direct Server Access (Every minute):**
+   ```bash
+   * * * * * php /path/to/wp-cron.php
+   ```
+
+Note: 
+- Replace "your-site.com" with your actual domain
+- Plugin logs will record every check (once per minute)
+- For high-traffic sites, consider using */5 instead of * to reduce server load
+- Log entries are limited to last 100 entries by default
+
+### Performance Considerations
+
+1. **High-traffic sites:**
+   - Use */5 for cron timing
+   - Monitor server load
+   - Check log file size regularly
+
+2. **Low-traffic sites:**
+   - Can safely use * (every minute)
+   - Logs will show more frequent checks
+   - Consider increasing log retention (modify twas_log function)
+
 ## Debug Tools
 
 Access debug tools from the 'Debug Tools' submenu to:
